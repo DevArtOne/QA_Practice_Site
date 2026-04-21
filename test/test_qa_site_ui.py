@@ -57,6 +57,9 @@ def test_home_link(home_page,page):
 #         re.compile(r"^https://qabrains\.com/topics/?$"),
 #         wait_state="domcontentloaded",
 #     )
+def test_home_is_visible(home_page):
+    expect(home_page.home_is_visible()).to_be_visible()
+
 def test_qa_topics_opens_in_new_tab(home_page, page):
     click_link_and_expect_new_tab(
         page,
@@ -66,6 +69,9 @@ def test_qa_topics_opens_in_new_tab(home_page, page):
 def test_qa_topics_target_and_href(home_page,page):
     expect(home_page.qa_topics).to_have_attribute("href", re.compile(r"^https://qabrains\.com/topics/?$"))
     expect(home_page.qa_topics).to_have_attribute("target", "_blank")
+def test_qa_topics_is_visible(home_page):
+    expect(home_page.qa_topics_is_visible()).to_be_visible()
+
 def test_discussion_opens_in_new_tab(home_page,page):
     click_link_and_expect_new_tab(
         page,
@@ -75,6 +81,9 @@ def test_discussion_opens_in_new_tab(home_page,page):
 def test_discussion_target_and_href(home_page,page):
     expect(home_page.discussion).to_have_attribute("target", "_blank")
     expect(home_page.discussion).to_have_attribute("href",re.compile(r"^https://qabrains\.com/discussion/?$"))
+def test_discussion_is_visible(home_page):
+    expect(home_page.discussion_is_visible()).to_be_visible()
+
 def test_tags_opens_in_new_tab(home_page,page):
     click_link_and_expect_new_tab(
         page,
@@ -84,6 +93,9 @@ def test_tags_opens_in_new_tab(home_page,page):
 def test_tags_target_and_href(home_page,page):
     expect(home_page.tags).to_have_attribute("target", "_blank")
     expect(home_page.tags).to_have_attribute("href",re.compile(r"^https://qabrains\.com/tags/?$"))
+def test_tags_is_visible(home_page):
+    expect(home_page.tags_is_visible()).to_be_visible()
+
 def test_jobs_opens_in_new_tab(home_page,page):
     click_link_and_expect_new_tab(
         page,
@@ -93,6 +105,9 @@ def test_jobs_opens_in_new_tab(home_page,page):
 def test_jobs_target_and_href(home_page,page):
     expect(home_page.jobs).to_have_attribute("target", "_blank")
     expect(home_page.jobs).to_have_attribute("href",re.compile(r"^https://qabrains\.com/jobs/?$"))
+def test_jobs_is_visible(home_page):
+    expect(home_page.jobs_is_visible()).to_be_visible()
+
 def test_practice_site_opens_in_new_tab(home_page,page):
     click_link_and_expect_new_tab(
         page,
@@ -102,6 +117,9 @@ def test_practice_site_opens_in_new_tab(home_page,page):
 def test_practice_site_target_and_href(home_page,page):
     expect(home_page.practice_site).to_have_attribute("target", "_blank")
     expect(home_page.practice_site).to_have_attribute("href",re.compile(r"^https://qabrains\.com/practice-site/?$"))
+def test_practice_site_is_visible(home_page):
+    expect(home_page.practice_site_is_visible()).to_be_visible()
+
 def test_about_us_opens_in_new_tab(home_page,page):
     click_link_and_expect_new_tab(
         page,
@@ -111,4 +129,6 @@ def test_about_us_opens_in_new_tab(home_page,page):
 def test_about_us_target_and_href(home_page,page):
     expect(home_page.about_us).to_have_attribute("target", "_blank")
     expect(home_page.about_us).to_have_attribute("href",re.compile(r"^https://qabrains\.com/about/?$"))
+def test_about_us_is_visible(home_page):
+    expect(home_page.about_us_is_visible()).to_be_visible()
 #-----------------header-----------------

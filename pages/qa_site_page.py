@@ -42,16 +42,36 @@ class PracticeSite:
 
     def click_home_link(self):
         self.home.click()
+    def home_is_visible(self):
+        return self.home
+
     def click_qa_topics(self):
         self.qa_topics.click()
+    def qa_topics_is_visible(self):
+        return self.qa_topics
+
     def click_discussion(self):
         self.discussion.click()
+    def discussion_is_visible(self):
+        return self.discussion
+
     def click_tags(self):
         self.tags.click()
+    def tags_is_visible(self):
+        return self.tags
+
     def click_jobs(self):
         self.jobs.click()
+    def jobs_is_visible(self):
+        return self.jobs
+
     def click_practice_site(self):
         self.practice_site.click()
+    def practice_site_is_visible(self):
+        return self.practice_site
+
     def click_about_us(self):
         self.about_us.click()
+    def about_us_is_visible(self):
+        return self.about_us
 #-----------------header-----------------
