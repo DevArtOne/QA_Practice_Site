@@ -13,6 +13,7 @@ class PracticeSite:
 #-----------------header-----------------
         self.logo = page.get_by_alt_text("Logo").first
         self.logo_link = page.locator('a[href="/"]').filter(has=self.logo).first
+        self.logo_practice_site = page.locator("small").filter(has_text="Practice Site").first
 
         self.home = page.get_by_role('link', name='home')
         self.qa_topics = page.get_by_role('link', name=re.compile(r"QA Topics"))
@@ -40,6 +41,8 @@ class PracticeSite:
         return self.logo
     def click_logo_link(self):
         self.logo_link.click()
+    def get_logo_practice_site(self):
+        return self.logo_practice_site
 
     def click_home_link(self):
         self.home.click()

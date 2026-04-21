@@ -46,6 +46,8 @@ def test_logo_has_link_to_home(home_page):
 def test_logo_link_click_opens_home(home_page,page):
     home_page.click_logo_link()
     expect(page).to_have_url(home_page.URL + "/")
+def test_logo_practice_site_is_visible(home_page):
+    expect(home_page.logo_practice_site).to_be_visible()
 
 def test_home_link(home_page,page):
     home_page.click_home_link()
