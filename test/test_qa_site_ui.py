@@ -131,4 +131,19 @@ def test_about_us_target_and_href(home_page,page):
     expect(home_page.about_us).to_have_attribute("href",re.compile(r"^https://qabrains\.com/about/?$"))
 def test_about_us_is_visible(home_page):
     expect(home_page.about_us_is_visible()).to_be_visible()
+
+def test_sign_in_target_and_href(home_page,page):
+    expect(home_page.sign_in).to_have_attribute("target", "_blank")
+    expect(home_page.sign_in).to_have_attribute("href",re.compile(r"^https://qabrains\.com/auth/login?$"))
+def test_sign_in_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
+        page,
+        home_page.click_sign_in,
+        re.compile(r"^https://qabrains\.com/auth/login?$"),
+    )
+def test_sign_in_is_visible(home_page):
+    expect(home_page.sign_in_is_visible()).to_be_visible()
+
+
+
 #-----------------header-----------------

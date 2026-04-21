@@ -22,6 +22,7 @@ class PracticeSite:
         self.practice_site = page.locator("#nav").get_by_role('link', name=re.compile(r"Practice Site"))
         self.about_us = page.locator("#nav").get_by_role('link', name=re.compile(r"About Us"))
 
+        self.sign_in = page.get_by_role('link', name=re.compile(r"Sign In"))
 #-----------------header-----------------
 
 
@@ -74,4 +75,9 @@ class PracticeSite:
         self.about_us.click()
     def about_us_is_visible(self):
         return self.about_us
+
+    def click_sign_in(self):
+        self.sign_in.click()
+    def sign_in_is_visible(self):
+        return self.sign_in
 #-----------------header-----------------
