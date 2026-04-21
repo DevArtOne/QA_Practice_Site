@@ -11,7 +11,8 @@ class PracticeSite:
 
 
 #-----------------header-----------------
-        self.logo = page.locator(".inline-flex.items-end.gap-1").get_by_role("img")
+        self.logo = page.get_by_alt_text("Logo").first
+        self.logo_link = page.locator('a[href="/"]').filter(has=self.logo).first
 
         self.home = page.get_by_role('link', name='home')
         self.qa_topics = page.get_by_role('link', name=re.compile(r"QA Topics"))
@@ -36,6 +37,8 @@ class PracticeSite:
 #-----------------header-----------------
     def get_logo(self):
         return self.logo
+    def click_logo_link(self):
+        self.logo_link.click()
 
     def click_home_link(self):
         self.home.click()

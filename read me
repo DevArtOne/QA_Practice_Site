@@ -35,20 +35,46 @@ def test_both(home_page, page):
     expect(page).to_have_url("https://docs.python.org/3/")
 
 
-    2)r""" helper‑функція, щоб стабільно перевіряти переходи, коли лінк може:
-1.
-Відкритися в новій вкладці (popup)
-2.
-Відкритися в цій же вкладці"""
-def click_link_and_expect_url(page, click_fn, expected_url, popup_timeout_ms=2000):
-    try:
-        with page.context.expect_page(timeout=popup_timeout_ms) as popup_info:
-            click_fn()
-        popup_page = popup_info.value
-        expect(popup_page).to_have_url(expected_url)
-    except PlaywrightTimeoutError:
-        expect(page).to_have_url(expected_url)
+    2)helper‑функція №1 з fallback'ом, щоб стабільно перевіряти переходи, коли лінк може:
+1.Відкритися в новій вкладці (popup) - основна перевірка
+2.Відкритися в цій же вкладці - fallback, якщо перша перевірка хибна
 
+
+# def click_link_and_expect_url(page, click_fn, expected_url, popup_timeout_ms=2000, wait_state=None):
+#     try:
+#         with page.context.expect_page(timeout=popup_timeout_ms) as popup_info:
+#             click_fn()
+#         popup_page = popup_info.value
+#         if wait_state:
+#             popup_page.wait_for_load_state(wait_state)
+#         expect(popup_page).to_have_url(expected_url)
+#     except PlaywrightTimeoutError:
+#         if wait_state:
+#             page.wait_for_load_state(wait_state)
+#         expect(page).to_have_url(expected_url)
+
+ helper‑функція №2 без fallback'у,  перевіряє, коли лінк може:
+Відкритися в новій вкладці (popup)
+
+def click_link_and_expect_new_tab(page, click_fn, expected_url, wait_state="domcontentloaded"):
+    with page.context.expect_page() as new_page_info:
+        click_fn()
+
+    new_page = new_page_info.value
+    new_page.wait_for_load_state(wait_state)
+    expect(new_page).to_have_url(expected_url)
+
+    return new_page
+
+Що саме перевіряє цей helper:
+•
+page.context.expect_page(): чекає появу нової вкладки;
+•
+click_fn(): виконує клік у момент очікування;
+•
+new_page_info.value: повертає нову вкладку;
+•
+expect(new_page).to_have_url(...): перевіряє, що відкрилась правильна сторінка.
 
     3)assert home_page.get_python_img().evaluate("img => img.naturalWidth > 0")
 r"""evaluate виконує передану функцію в контексті сторінки.

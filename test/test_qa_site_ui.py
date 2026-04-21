@@ -3,22 +3,36 @@ import re
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError, expect
 
 # --------------------------------
-r""" helper‑функція, щоб стабільно перевіряти переходи, коли лінк може:
-1.Відкритися в новій вкладці (popup)
-2.Відкритися в цій же вкладці"""
+r""" helper‑функція з fallback'ом №1, щоб стабільно перевіряти переходи, коли лінк може:
+1.Відкритися в новій вкладці (popup) - основна перевірка
+2.Відкритися в цій же вкладці - fallback, якщо перша перевірка хибна
+"""
 
-def click_link_and_expect_url(page, click_fn, expected_url, popup_timeout_ms=2000, wait_state=None):
-    try:
-        with page.context.expect_page(timeout=popup_timeout_ms) as popup_info:
-            click_fn()
-        popup_page = popup_info.value
-        if wait_state:
-            popup_page.wait_for_load_state(wait_state)
-        expect(popup_page).to_have_url(expected_url)
-    except PlaywrightTimeoutError:
-        if wait_state:
-            page.wait_for_load_state(wait_state)
-        expect(page).to_have_url(expected_url)
+# def click_link_and_expect_url(page, click_fn, expected_url, popup_timeout_ms=2000, wait_state=None):
+#     try:
+#         with page.context.expect_page(timeout=popup_timeout_ms) as popup_info:
+#             click_fn()
+#         popup_page = popup_info.value
+#         if wait_state:
+#             popup_page.wait_for_load_state(wait_state)
+#         expect(popup_page).to_have_url(expected_url)
+#     except PlaywrightTimeoutError:
+#         if wait_state:
+#             page.wait_for_load_state(wait_state)
+#         expect(page).to_have_url(expected_url)
+
+r""" helper‑функція №2 без fallback'у,  перевіряє, коли лінк може:
+Відкритися в новій вкладці (popup)
+"""
+def click_link_and_expect_new_tab(page, click_fn, expected_url, wait_state="domcontentloaded"):
+    with page.context.expect_page() as new_page_info:
+        click_fn()
+
+    new_page = new_page_info.value
+    new_page.wait_for_load_state(wait_state)
+    expect(new_page).to_have_url(expected_url)
+
+    return new_page
 #--------------------------------
 
 
@@ -26,67 +40,73 @@ def click_link_and_expect_url(page, click_fn, expected_url, popup_timeout_ms=200
 def test_logo_visible(home_page):
     # home_page.get_logo()
     expect(home_page.logo).to_be_visible()
-    assert home_page.get_logo().evaluate("img => img.naturalWidth > 0")
+    assert home_page.get_logo().evaluate("img => img.complete && img.naturalWidth > 0") #("img => img.naturalWidth > 0")
+def test_logo_has_link_to_home(home_page):
+    expect(home_page.logo_link).to_have_attribute("href","/")
+def test_logo_link_click_opens_home(home_page,page):
+    home_page.click_logo_link()
+    expect(page).to_have_url(home_page.URL + "/")
 
 def test_home_link(home_page,page):
     home_page.click_home_link()
     expect(page).to_have_url(re.compile(r"practice.qabrains.com"))
-def test_qa_topics_link(home_page,page):
-    click_link_and_expect_url(
+# def test_qa_topics_link(home_page,page):
+#     click_link_and_expect_url(
+#         page,
+#         home_page.click_qa_topics,
+#         re.compile(r"^https://qabrains\.com/topics/?$"),
+#         wait_state="domcontentloaded",
+#     )
+def test_qa_topics_opens_in_new_tab(home_page, page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_qa_topics,
         re.compile(r"^https://qabrains\.com/topics/?$"),
-        wait_state="domcontentloaded",
     )
 def test_qa_topics_target_and_href(home_page,page):
     expect(home_page.qa_topics).to_have_attribute("href", re.compile(r"^https://qabrains\.com/topics/?$"))
     expect(home_page.qa_topics).to_have_attribute("target", "_blank")
-def test_discussion_link(home_page,page):
-    click_link_and_expect_url(
+def test_discussion_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_discussion,
         re.compile(r"^https://qabrains\.com/discussion/?$"),
-        wait_state="domcontentloaded",
     )
 def test_discussion_target_and_href(home_page,page):
     expect(home_page.discussion).to_have_attribute("target", "_blank")
     expect(home_page.discussion).to_have_attribute("href",re.compile(r"^https://qabrains\.com/discussion/?$"))
-def test_tags_link(home_page,page):
-    click_link_and_expect_url(
+def test_tags_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_tags,
         re.compile(r"^https://qabrains\.com/tags/?$"),
-        wait_state="domcontentloaded",
     )
 def test_tags_target_and_href(home_page,page):
     expect(home_page.tags).to_have_attribute("target", "_blank")
     expect(home_page.tags).to_have_attribute("href",re.compile(r"^https://qabrains\.com/tags/?$"))
-def test_jobs_link(home_page,page):
-    click_link_and_expect_url(
+def test_jobs_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_jobs,
         re.compile(r"^https://qabrains\.com/jobs/?$"),
-        wait_state="domcontentloaded",
     )
 def test_jobs_target_and_href(home_page,page):
     expect(home_page.jobs).to_have_attribute("target", "_blank")
     expect(home_page.jobs).to_have_attribute("href",re.compile(r"^https://qabrains\.com/jobs/?$"))
-def test_practice_site_link(home_page,page):
-    click_link_and_expect_url(
+def test_practice_site_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_practice_site,
         re.compile(r"^https://qabrains\.com/practice-site/?$"),
-        wait_state="domcontentloaded",
     )
 def test_practice_site_target_and_href(home_page,page):
     expect(home_page.practice_site).to_have_attribute("target", "_blank")
     expect(home_page.practice_site).to_have_attribute("href",re.compile(r"^https://qabrains\.com/practice-site/?$"))
-def test_about_us_link(home_page,page):
-    click_link_and_expect_url(
+def test_about_us_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
         page,
         home_page.click_about_us,
         re.compile(r"^https://qabrains\.com/about/?$"),
-        wait_state="domcontentloaded",
     )
 def test_about_us_target_and_href(home_page,page):
     expect(home_page.about_us).to_have_attribute("target", "_blank")
