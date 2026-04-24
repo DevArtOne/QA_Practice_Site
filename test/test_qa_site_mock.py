@@ -7,8 +7,8 @@ def test_mock_module_home_page(qa_site_page, page):
             "module": [
                 {
                     "key": "auth",
-                    "title": "Auth Module",
-                    "icon": "https://qabrain-prod.s3.ap-south-1.amazonaws.com/content-managements/practice_page/icons/login.svg",
+                    "title": "User LOOSER",
+                    "icon": "",
                     "is_active": True,
                     "is_disable": False,
                     "items": [
@@ -34,6 +34,20 @@ def test_mock_module_home_page(qa_site_page, page):
                             "is_disable": False
                         }
                     ]
+                },
+                {
+                    "key": "form-submission",
+                    "title": "Form UNIFORM",
+                    "icon": "https://qabrain-prod.s3.ap-south-1.amazonaws.com/content-managements/practice_page/icons/form-submission.svg",
+                    "is_active": True,
+                    "is_disable": False
+                },
+                {
+                    "key": "drag-drop",
+                    "title": "Drag and FUCK",
+                    "icon": "https://qabrain-prod.s3.ap-south-1.amazonaws.com/content-managements/practice_page/icons/drag-drop.svg",
+                    "is_active": True,
+                    "is_disable": False
                 }
             ],
             "site": []
@@ -50,4 +64,7 @@ def test_mock_module_home_page(qa_site_page, page):
     expect(page.get_by_text("John").first).to_be_visible()
     expect(page.get_by_text("Nat").first).to_be_visible()
     expect(page.get_by_text("Jack").first).to_be_visible()
-    #page.pause() #для зупинки тесту, щоб браузер не закрився автоматично
+    expect(page.get_by_text("User LOOSER").first).to_be_visible()
+    expect(page.get_by_text("Form UNIFORM").first).to_be_visible()
+    expect(page.get_by_text("Drag and FUCK").first).to_be_visible()
+    # page.pause() #для зупинки тесту, щоб браузер не закрився автоматично
