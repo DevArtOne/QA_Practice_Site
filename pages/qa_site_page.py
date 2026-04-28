@@ -23,6 +23,10 @@ class PracticeSite:
         self.practice_site = page.locator("#nav").get_by_role('link', name=re.compile(r"Practice Site"))
         self.about_us = page.locator("#nav").get_by_role('link', name=re.compile(r"About Us"))
 
+        self.header_navigation = page.locator("#nav")
+        self.sidebar_button = page.locator("#page-header").get_by_role("button").first
+        self.sidebar = page.locator("#page-sidebar")
+
         self.sign_in = page.get_by_role('link', name=re.compile(r"Sign In"))
 #-----------------header-----------------
 
@@ -78,6 +82,16 @@ class PracticeSite:
         self.about_us.click()
     def about_us_is_visible(self):
         return self.about_us
+
+    def header_navigation(self):
+        return self.header_navigation
+
+    def sidebar_button_is_visible(self):
+        return self.sidebar_button
+    def click_sidebar_button(self):
+        self.sidebar_button.click()
+    def get_sidebar(self):
+        return self.sidebar
 
     def click_sign_in(self):
         self.sign_in.click()

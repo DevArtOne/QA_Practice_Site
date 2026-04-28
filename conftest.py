@@ -10,5 +10,5 @@ def home_page(page):
 
 
 @pytest.fixture
-def qa_site_page(page):
+def qa_site_home_page(page):
     return PracticeSite(page)

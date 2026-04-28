@@ -1,16 +1,16 @@
-from conftest import qa_site_page
+from conftest import qa_site_home_page
 
 
-def test_home_demo_module_site_api_request(qa_site_page, page):
+def test_home_demo_module_site_api_request(qa_site_home_page, page):
     with page.expect_request("**/api/v1/component/categories") as request_info:
-        qa_site_page.open()
+        qa_site_home_page.open()
 
     request = request_info.value
     assert request.method == "GET"
 
-def test_home_module_site_api_response(qa_site_page, page):
+def test_home_module_site_api_response(qa_site_home_page, page):
     with page.expect_response("**/api/v1/component/categories") as response_info:
-        qa_site_page.open()
+        qa_site_home_page.open()
 
     response = response_info.value
     assert response.status == 200
@@ -50,3 +50,5 @@ def test_home_module_site_api_response(qa_site_page, page):
     assert first_item["label"]
 
     assert all(required_module_fields.issubset(module) for module in data["module"])
+    assert all("key" in module for module in data["module"]) #перевіряє, що всі елементи мають ключ key (використовувати коли потрібно перевірити один ключ)
+    assert all(required_item_fields.issubset(module) for module in data["module"][0]["items"]) #Перевіряє, що всі елементи мають всі ці ключі{"key", "label", "icon", "is_active", "is_disable"}

@@ -134,6 +134,20 @@ def test_about_us_target_and_href(home_page,page):
 def test_about_us_is_visible(home_page):
     expect(home_page.about_us_is_visible()).to_be_visible()
 
+def test_header_navigation_is_visible(home_page):
+    expect(home_page.header_navigation()).to_be_visible()
+def test_header_navigation_is_hidden(home_page,page):
+    page.set_viewport_size({"width": 1023, "height": 812})
+    expect(home_page.header_navigation()).to_be_hidden()
+
+def test_sidebar_button_is_visible(home_page, page):
+    page.set_viewport_size({"width": 1023, "height": 812})  # Для зменшення розміру екрана
+    expect(home_page.sidebar_button_is_visible()).to_be_visible()
+def test_sidebar_menu_item_is_visible(home_page,page):
+    page.set_viewport_size({"width": 1023, "height": 812})
+    home_page.click_sidebar_button()
+    expect(home_page.get_sidebar()).to_be_visible()
+
 def test_sign_in_target_and_href(home_page,page):
     expect(home_page.sign_in).to_have_attribute("target", "_blank")
     expect(home_page.sign_in).to_have_attribute("href",re.compile(r"^https://qabrains\.com/auth/login?$"))
