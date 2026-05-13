@@ -186,3 +186,23 @@ def test_user_authentication_button(home_page):
 
 
 #-----------------sidebar----------------
+
+
+# -----------------User Authentication----------------
+def test_user_authentication_and_login_pages_is_visible(home_page):
+    expect(home_page.get_user_authentication()).to_be_visible()
+    expect(home_page.get_login_page()).to_be_visible()
+
+def test_email_and_password_and_login_button_is_visible(home_page):
+    expect(home_page.email_input).to_be_visible()
+    expect(home_page.password_input).to_be_visible()
+    expect(home_page.login_button).to_be_visible()
+
+def test_the_work_email_password_login_button(home_page):
+    home_page.enter_email("qa_testers@qabrains.com")
+    home_page.enter_password("Password123")
+    home_page.click_login_button()
+
+    expect(home_page.get_login_successful_text()).to_be_visible()
+    expect(home_page.get_congratulations_text()).to_be_visible()
+# -----------------User Authentication----------------

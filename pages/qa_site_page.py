@@ -45,7 +45,16 @@ class PracticeSite:
 
 # -----------------sidebar----------------
 
+# -----------------User Authentication----------------
+        self.user_authentication = page.get_by_role("heading", level=2).filter(has_text="User Authentication").first
+        self.login_page = page.locator("[data-slot='alert-title']").filter(has_text="Login Page").first
+        self.email_input = page.get_by_role("textbox", name="email")
+        self.password_input = page.get_by_role("textbox", name="password")
+        self.login_button = page.get_by_role("button", name="login")
 
+        self.login_successful = page.get_by_role("heading", level=2).filter(has_text="Login Successful").first
+        self.congratulations = page.get_by_role("paragraph").filter(has_text=re.compile(r"Congratulations", re.IGNORECASE)).first
+# -----------------User Authentication----------------
 
     def open(self):
         self.page.goto(self.URL)
@@ -117,3 +126,24 @@ class PracticeSite:
     def click_user_authentication_button(self):
         self.user_authentication_button.click()
 #-----------------sidebar----------------
+
+
+# -----------------User Authentication----------------
+    def get_user_authentication(self):
+        return self.user_authentication
+    def get_login_page(self):
+        return self.login_page
+
+    def enter_email(self, text: str):
+        self.email_input.fill(text)
+    def enter_password(self, text: str):
+        self.password_input.fill(text)
+
+    def click_login_button(self):
+        self.login_button.click()
+
+    def get_login_successful_text(self):
+        return self.login_successful
+    def get_congratulations_text(self):
+        return self.congratulations
+# -----------------User Authentication----------------
