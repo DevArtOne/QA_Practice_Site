@@ -24,16 +24,26 @@ class PracticeSite:
         self.about_us = page.locator("#nav").get_by_role('link', name=re.compile(r"About Us"))
 
         self.header_navigation = page.locator("#nav")
-        self.sidebar_button = page.locator("#page-header").get_by_role("button").first
-        self.sidebar = page.locator("#page-sidebar")
+
 
         self.sign_in = page.get_by_role('link', name=re.compile(r"Sign In"))
 #-----------------header-----------------
 
+#-----------------sidebar----------------
+        self.sidebar_button = page.locator("#page-header").get_by_role("button").first
+        self.sidebar = page.locator("#page-sidebar")
 
+        self.demo_module = page.locator("#demo-module")
+        self.demo_module_heading = self.demo_module.get_by_role("heading", level=3).filter(has_text="Demo Module").first
+        self.user_authentication_button = self.demo_module.get_by_role("menuitem", name="User Authentication")
+        self.login_button = self.demo_module.get_by_role("menuitem", name="Login")
+        self.registration_button = self.demo_module.get_by_role("menuitem", name="Registration")
+        self.forgot_password_button = self.demo_module.get_by_role("menuitem", name="Forgot Password")
 
+        self.demo_site = page.locator("#demo-site")
+        self.demo_site_heading = self.demo_site.get_by_role("heading", level=3).filter(has_text="Demo Site").first
 
-
+# -----------------sidebar----------------
 
 
 
@@ -83,9 +93,16 @@ class PracticeSite:
     def about_us_is_visible(self):
         return self.about_us
 
-    def header_navigation(self):
+    def get_header_navigation(self):
         return self.header_navigation
 
+    def click_sign_in(self):
+        self.sign_in.click()
+    def sign_in_is_visible(self):
+        return self.sign_in
+#-----------------header-----------------
+
+# -----------------sidebar----------------
     def sidebar_button_is_visible(self):
         return self.sidebar_button
     def click_sidebar_button(self):
@@ -93,8 +110,10 @@ class PracticeSite:
     def get_sidebar(self):
         return self.sidebar
 
-    def click_sign_in(self):
-        self.sign_in.click()
-    def sign_in_is_visible(self):
-        return self.sign_in
-#-----------------header-----------------
+    def demo_module_is_visible(self):
+        return self.demo_module_heading
+    def demo_site_is_visible(self):
+        return self.demo_site_heading
+    def click_user_authentication_button(self):
+        self.user_authentication_button.click()
+#-----------------sidebar----------------

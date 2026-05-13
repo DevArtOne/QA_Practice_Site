@@ -68,7 +68,7 @@ def test_qa_topics_opens_in_new_tab(home_page, page):
         home_page.click_qa_topics,
         re.compile(r"^https://qabrains\.com/topics/?$"),
     )
-def test_qa_topics_target_and_href(home_page,page):
+def test_qa_topics_target_and_href(home_page):
     expect(home_page.qa_topics).to_have_attribute("href", re.compile(r"^https://qabrains\.com/topics/?$"))
     expect(home_page.qa_topics).to_have_attribute("target", "_blank")
 def test_qa_topics_is_visible(home_page):
@@ -80,7 +80,7 @@ def test_discussion_opens_in_new_tab(home_page,page):
         home_page.click_discussion,
         re.compile(r"^https://qabrains\.com/discussion/?$"),
     )
-def test_discussion_target_and_href(home_page,page):
+def test_discussion_target_and_href(home_page):
     expect(home_page.discussion).to_have_attribute("target", "_blank")
     expect(home_page.discussion).to_have_attribute("href",re.compile(r"^https://qabrains\.com/discussion/?$"))
 def test_discussion_is_visible(home_page):
@@ -92,7 +92,7 @@ def test_tags_opens_in_new_tab(home_page,page):
         home_page.click_tags,
         re.compile(r"^https://qabrains\.com/tags/?$"),
     )
-def test_tags_target_and_href(home_page,page):
+def test_tags_target_and_href(home_page):
     expect(home_page.tags).to_have_attribute("target", "_blank")
     expect(home_page.tags).to_have_attribute("href",re.compile(r"^https://qabrains\.com/tags/?$"))
 def test_tags_is_visible(home_page):
@@ -104,7 +104,7 @@ def test_jobs_opens_in_new_tab(home_page,page):
         home_page.click_jobs,
         re.compile(r"^https://qabrains\.com/jobs/?$"),
     )
-def test_jobs_target_and_href(home_page,page):
+def test_jobs_target_and_href(home_page):
     expect(home_page.jobs).to_have_attribute("target", "_blank")
     expect(home_page.jobs).to_have_attribute("href",re.compile(r"^https://qabrains\.com/jobs/?$"))
 def test_jobs_is_visible(home_page):
@@ -116,7 +116,7 @@ def test_practice_site_opens_in_new_tab(home_page,page):
         home_page.click_practice_site,
         re.compile(r"^https://qabrains\.com/practice-site/?$"),
     )
-def test_practice_site_target_and_href(home_page,page):
+def test_practice_site_target_and_href(home_page):
     expect(home_page.practice_site).to_have_attribute("target", "_blank")
     expect(home_page.practice_site).to_have_attribute("href",re.compile(r"^https://qabrains\.com/practice-site/?$"))
 def test_practice_site_is_visible(home_page):
@@ -128,18 +128,33 @@ def test_about_us_opens_in_new_tab(home_page,page):
         home_page.click_about_us,
         re.compile(r"^https://qabrains\.com/about/?$"),
     )
-def test_about_us_target_and_href(home_page,page):
+def test_about_us_target_and_href(home_page):
     expect(home_page.about_us).to_have_attribute("target", "_blank")
     expect(home_page.about_us).to_have_attribute("href",re.compile(r"^https://qabrains\.com/about/?$"))
 def test_about_us_is_visible(home_page):
     expect(home_page.about_us_is_visible()).to_be_visible()
 
 def test_header_navigation_is_visible(home_page):
-    expect(home_page.header_navigation()).to_be_visible()
+    expect(home_page.get_header_navigation()).to_be_visible()
 def test_header_navigation_is_hidden(home_page,page):
     page.set_viewport_size({"width": 1023, "height": 812})
-    expect(home_page.header_navigation()).to_be_hidden()
+    expect(home_page.get_header_navigation()).to_be_hidden()
 
+def test_sign_in_target_and_href(home_page):
+    expect(home_page.sign_in).to_have_attribute("target", "_blank")
+    expect(home_page.sign_in).to_have_attribute("href",re.compile(r"^https://qabrains\.com/auth/login/?$"))
+def test_sign_in_opens_in_new_tab(home_page,page):
+    click_link_and_expect_new_tab(
+        page,
+        home_page.click_sign_in,
+        re.compile(r"^https://qabrains\.com/auth/login/?$")
+    )
+def test_sign_in_is_visible(home_page):
+    expect(home_page.sign_in_is_visible()).to_be_visible()
+#-----------------header-----------------
+
+
+#-----------------sidebar----------------
 def test_sidebar_button_is_visible(home_page, page):
     page.set_viewport_size({"width": 1023, "height": 812})  # Для зменшення розміру екрана
     expect(home_page.sidebar_button_is_visible()).to_be_visible()
@@ -148,18 +163,26 @@ def test_sidebar_menu_item_is_visible(home_page,page):
     home_page.click_sidebar_button()
     expect(home_page.get_sidebar()).to_be_visible()
 
-def test_sign_in_target_and_href(home_page,page):
-    expect(home_page.sign_in).to_have_attribute("target", "_blank")
-    expect(home_page.sign_in).to_have_attribute("href",re.compile(r"^https://qabrains\.com/auth/login?$"))
-def test_sign_in_opens_in_new_tab(home_page,page):
-    click_link_and_expect_new_tab(
-        page,
-        home_page.click_sign_in,
-        re.compile(r"^https://qabrains\.com/auth/login?$"),
-    )
-def test_sign_in_is_visible(home_page):
-    expect(home_page.sign_in_is_visible()).to_be_visible()
+def test_demo_module_is_visible(home_page):
+    expect(home_page.demo_module_is_visible()).to_be_visible()
+def test_demo_site_is_visible(home_page):
+    expect(home_page.demo_site_is_visible()).to_be_visible()
+
+def test_user_authentication_button(home_page):
+    expect(home_page.user_authentication_button).to_be_visible()
+    home_page.click_user_authentication_button()
+
+    expect(home_page.login_button).to_be_hidden()
+    expect(home_page.registration_button).to_be_hidden()
+    expect(home_page.forgot_password_button).to_be_hidden()
+
+    home_page.click_user_authentication_button()
+
+
+    expect(home_page.login_button).to_be_visible()
+    expect(home_page.registration_button).to_be_visible()
+    expect(home_page.forgot_password_button).to_be_visible()
 
 
 
-#-----------------header-----------------
+#-----------------sidebar----------------
