@@ -36,9 +36,9 @@ class PracticeSite:
         self.demo_module = page.locator("#demo-module")
         self.demo_module_heading = self.demo_module.get_by_role("heading", level=3).filter(has_text="Demo Module").first
         self.user_authentication_button = self.demo_module.get_by_role("menuitem", name="User Authentication")
-        self.login_button = self.demo_module.get_by_role("menuitem", name="Login")
-        self.registration_button = self.demo_module.get_by_role("menuitem", name="Registration")
-        self.forgot_password_button = self.demo_module.get_by_role("menuitem", name="Forgot Password")
+        self.demo_module_login_button = self.demo_module.get_by_role("menuitem", name="Login")
+        self.demo_module_registration_button = self.demo_module.get_by_role("menuitem", name="Registration")
+        self.demo_module_forgot_password_button = self.demo_module.get_by_role("menuitem", name="Forgot Password")
 
         self.demo_site = page.locator("#demo-site")
         self.demo_site_heading = self.demo_site.get_by_role("heading", level=3).filter(has_text="Demo Site").first

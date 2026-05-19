@@ -19,11 +19,12 @@ def test_home_module_site_api_response(qa_site_home_page, page):
     assert isinstance(data.get("module"), list)
     assert isinstance(data.get("site"), list)
     assert data["module"]
+    assert data["site"]
 
     # assert "key" in data["module"][0] #Це означає: “чи є ключ items у першому об’єкті списку module”.
     first_module = data["module"][0]
     required_module_fields = {"key", "title", "icon", "is_active", "is_disable"}  #, "items"
-    assert required_module_fields.issubset(first_module) #це перевірка, що всі потрібні ключі є в словнику first_module. Тобто майже те саме, що: assert "key" in first_module
+    assert required_module_fields.issubset(first_module) #Це перевірка, що всі потрібні ключі є в словнику first_module. Тобто майже те саме, що: assert "key" in first_module
 
     assert isinstance(first_module["key"], str)
     assert isinstance(first_module["title"], str)
@@ -52,3 +53,16 @@ def test_home_module_site_api_response(qa_site_home_page, page):
     assert all(required_module_fields.issubset(module) for module in data["module"])
     assert all("key" in module for module in data["module"]) #перевіряє, що всі елементи мають ключ key (використовувати коли потрібно перевірити один ключ)
     assert all(required_item_fields.issubset(module) for module in data["module"][0]["items"]) #Перевіряє, що всі елементи мають всі ці ключі{"key", "label", "icon", "is_active", "is_disable"}
+
+
+    first_site_item = data["site"][0]
+    required_module_site_fields = {"key", "title", "icon", "is_active", "is_disable"}
+    assert required_module_site_fields.issubset(first_site_item)
+
+    assert isinstance(first_site_item["key"], str)
+    assert isinstance(first_site_item["title"], str)
+    assert isinstance(first_site_item["icon"], str)
+    assert isinstance(first_site_item["is_active"], bool)
+    assert isinstance(first_site_item["is_disable"], bool)
+
+    assert all(required_module_site_fields.issubset(site_item) for site_item in data["site"])

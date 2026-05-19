@@ -172,16 +172,16 @@ def test_user_authentication_button(home_page):
     expect(home_page.user_authentication_button).to_be_visible()
     home_page.click_user_authentication_button()
 
-    expect(home_page.login_button).to_be_hidden()
-    expect(home_page.registration_button).to_be_hidden()
-    expect(home_page.forgot_password_button).to_be_hidden()
+    expect(home_page.demo_module_login_button).to_be_hidden()
+    expect(home_page.demo_module_registration_button).to_be_hidden()
+    expect(home_page.demo_module_forgot_password_button).to_be_hidden()
 
     home_page.click_user_authentication_button()
 
 
-    expect(home_page.login_button).to_be_visible()
-    expect(home_page.registration_button).to_be_visible()
-    expect(home_page.forgot_password_button).to_be_visible()
+    expect(home_page.demo_module_login_button).to_be_visible()
+    expect(home_page.demo_module_registration_button).to_be_visible()
+    expect(home_page.demo_module_forgot_password_button).to_be_visible()
 
 
 
