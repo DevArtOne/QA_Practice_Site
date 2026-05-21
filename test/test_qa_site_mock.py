@@ -82,7 +82,6 @@ def test_mock_site_home_page(qa_site_home_page, page):
     def mock_site_home_page(route):
         mock_data = {
             "module": [],
-            "dable": [],
             "site": [
                 {
                     "key": "ecommerce-site",
@@ -112,4 +111,56 @@ def test_mock_site_home_page(qa_site_home_page, page):
 
     expect(page.get_by_text("E-KUKUMBER Site").first).to_be_visible()
     expect(page.get_by_text("Booking LIBRARY").first).to_be_visible()
+    page.pause()
+
+
+
+def test_mock_categories_with_handler_route_request(qa_site_home_page, page):
+    def handler(route, request):
+        # Перевіряємо сам запит перед мок-відповіддю
+        assert request.method == "GET"
+        assert "/api/v1/component/categories" in request.url
+
+        mock_data = {
+            "module": [
+                {
+                    "key": "auth",
+                    "title": "User Authentication",
+                    "icon": "",
+                    "is_active": True,
+                    "is_disable": False,
+                    "items": [
+                        {
+                            "key": "login",
+                            "label": "Login",
+                            "icon": "",
+                            "is_active": True,
+                            "is_disable": False
+                        }
+                    ]
+                }
+            ],
+            "site": [
+                {
+                    "key": "ecommerce-site",
+                    "title": "Ecommerce Site",
+                    "icon": "",
+                    "is_active": True,
+                    "is_disable": False
+                }
+            ]
+        }
+
+        route.fulfill(
+            status=200,
+            content_type="application/json",
+            body=json.dumps(mock_data)
+        )
+
+    page.route("**/api/v1/component/categories", handler)
+    qa_site_home_page.open()
+
+    expect(page.get_by_text("User Authentication").first).to_be_visible()
+    expect(page.get_by_text("Login").first).to_be_visible()
+    expect(page.get_by_text("Ecommerce Site").first).to_be_visible()
     page.pause()
