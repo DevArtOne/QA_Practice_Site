@@ -2,7 +2,10 @@ from playwright.sync_api import expect
 import json
 
 def test_mock_module_home_page(qa_site_home_page, page):
-    def mock_module_home_page(route):
+    def handler(route, request):
+        assert request.method == "GET"
+        assert "/api/v1/component/categories" in request.url
+
         mock_data = {
             "module": [
                 {
@@ -66,7 +69,7 @@ def test_mock_module_home_page(qa_site_home_page, page):
             body= json.dumps(mock_data)
         )
 
-    page.route("**/api/v1/component/categories", mock_module_home_page)
+    page.route("**/api/v1/component/categories", handler)
     qa_site_home_page.open()
 
     expect(page.get_by_text("John").first).to_be_visible()
@@ -75,11 +78,14 @@ def test_mock_module_home_page(qa_site_home_page, page):
     expect(page.get_by_text("User LOOSER").first).to_be_visible()
     expect(page.get_by_text("Form UNIFORM").first).to_be_visible()
     expect(page.get_by_text("Drag and Duck").first).to_be_visible()
-    page.pause() #для зупинки тесту, щоб браузер не закрився автоматично
+    # page.pause() #для зупинки тесту, щоб браузер не закрився автоматично
 
 
 def test_mock_site_home_page(qa_site_home_page, page):
-    def mock_site_home_page(route):
+    def handler(route, request):
+        assert request.method == "GET"
+        assert "/api/v1/component/categories" in request.url
+
         mock_data = {
             "module": [],
             "site": [
@@ -106,12 +112,12 @@ def test_mock_site_home_page(qa_site_home_page, page):
             body= json.dumps(mock_data)
         )
 
-    page.route("**/api/v1/component/categories", mock_site_home_page)
+    page.route("**/api/v1/component/categories", handler)
     qa_site_home_page.open()
 
     expect(page.get_by_text("E-KUKUMBER Site").first).to_be_visible()
     expect(page.get_by_text("Booking LIBRARY").first).to_be_visible()
-    page.pause()
+    # page.pause()
 
 
 
