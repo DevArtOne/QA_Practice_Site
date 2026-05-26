@@ -169,4 +169,34 @@ def test_mock_categories_with_handler_route_request(qa_site_home_page, page):
     expect(page.get_by_text("User Authentication").first).to_be_visible()
     expect(page.get_by_text("Login").first).to_be_visible()
     expect(page.get_by_text("Ecommerce Site").first).to_be_visible()
+    # page.pause()
+
+def test_mock_the_feedback_site(qa_site_home_page, page):
+    def handler(route, request):
+        assert request.method == "GET"
+        assert "/api/v1/component/categories/feedbacks" in request.url
+
+        mock_data = {
+            "links": {
+                "first": 1,
+                "last": 10,
+                "prev": "null",
+                "next": 2,
+                "current_page": 1,
+                "per_page": 10,
+                "total": 97
+            },
+            "data": [{}]
+        }
+
+        route.fulfill(
+            status=200,
+            content_type="application/json",
+            body=json.dumps(mock_data)
+        )
+
+    page.route("**/api/v1/component/categories/feedbacks**", handler)
+    qa_site_home_page.open()
+
+    expect(page.locator("#scrollableDiv").first).to_have_count(0)
     page.pause()
