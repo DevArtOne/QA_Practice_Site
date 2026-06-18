@@ -25,7 +25,6 @@ class PracticeSite:
 
         self.header_navigation = page.locator("#nav")
 
-
         self.sign_in = page.get_by_role('link', name=re.compile(r"Sign In"))
 #-----------------header-----------------
 
@@ -45,7 +44,7 @@ class PracticeSite:
 
 # -----------------sidebar----------------
 
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
         self.user_authentication = page.get_by_role("heading", level=2).filter(has_text="User Authentication").first
         self.login_page = page.locator("[data-slot='alert-title']").filter(has_text="Login Page").first
         self.email_input = page.get_by_role("textbox", name="email")
@@ -54,7 +53,33 @@ class PracticeSite:
 
         self.login_successful = page.get_by_role("heading", level=2).filter(has_text="Login Successful").first
         self.congratulations = page.get_by_role("paragraph").filter(has_text=re.compile(r"Congratulations", re.IGNORECASE)).first
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
+
+# -----------------User Authentication (Registration)----------------
+        self.registration_button = page.get_by_role("menuitem", name="registration")
+
+    #-------------------text----------------------
+        self.registration_name = page.get_by_label("Name")
+        self.registration_select_country = page.get_by_label("Select Country")
+        self.registration_account_type = page.get_by_label("Account Type")
+        self.registration_email = page.get_by_label("Email")
+        self.registration_password = page.get_by_label("Password").nth(0)
+        self.registration_confirm_password = page.get_by_label("Confirm Password")
+    #-------------------text----------------------
+
+    #-------------------select/input fields----------------------
+        self.name_input = page.get_by_role("textbox", name="name")
+        self.select_country = page.get_by_role("combobox", name="country")
+        self.account_type_select = page.get_by_role("combobox", name="account")
+        self.email_input = page.get_by_role("textbox", name="email")
+        self.password_input = page.get_by_role("textbox", name="password")
+        self.confirm_password_input = page.get_by_role("textbox", name="confirm_password")
+        self.country_list = page.get_by_role("option", name="Angola")
+    #-------------------select/input fields----------------------
+
+# -----------------User Authentication (Registration)----------------
+
+
 
     def open(self):
         self.page.goto(self.URL)
@@ -128,7 +153,7 @@ class PracticeSite:
 #-----------------sidebar----------------
 
 
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
     def get_user_authentication(self):
         return self.user_authentication
     def get_login_page(self):
@@ -146,4 +171,42 @@ class PracticeSite:
         return self.login_successful
     def get_congratulations_text(self):
         return self.congratulations
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
+
+# -----------------User Authentication (Registration)----------------
+    def click_registration_button(self):
+        self.registration_button.click()
+
+  # -------------------text----------------------
+    def get_registration_name(self):
+        return self.registration_name
+    def get_registration_select_country(self):
+        return self.registration_select_country
+    def get_registration_account_type(self):
+        return self.registration_account_type
+    def get_registration_email(self):
+        return self.registration_email
+    def get_registration_password(self):
+        return self.registration_password
+    def get_registration_confirm_password(self):
+        return self.registration_confirm_password
+  # -------------------text----------------------
+
+  # -------------------select/input fields----------------------
+    def get_name_inputs(self):
+        return self.name_input
+    def fill_name_inputs(self):
+        self.name_input.fill("Jhon Doe")
+
+    def get_select_country(self):
+        return self.select_country
+    def select_country_select(self):
+        self.select_country.click()
+    def get_country_list(self):
+        return self.country_list
+    def click_country_list(self):
+        self.select_country.select_option("Angola")
+  # -------------------select/input fields----------------------
+# -----------------User Authentication (Registration)----------------
+
+

@@ -178,17 +178,13 @@ def test_user_authentication_button(home_page):
 
     home_page.click_user_authentication_button()
 
-
     expect(home_page.demo_module_login_button).to_be_visible()
     expect(home_page.demo_module_registration_button).to_be_visible()
     expect(home_page.demo_module_forgot_password_button).to_be_visible()
-
-
-
 #-----------------sidebar----------------
 
 
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
 def test_user_authentication_and_login_pages_is_visible(home_page):
     expect(home_page.get_user_authentication()).to_be_visible()
     expect(home_page.get_login_page()).to_be_visible()
@@ -205,4 +201,29 @@ def test_the_work_email_password_login_button(home_page):
 
     expect(home_page.get_login_successful_text()).to_be_visible()
     expect(home_page.get_congratulations_text()).to_be_visible()
-# -----------------User Authentication----------------
+# -----------------User Authentication (Login)----------------
+
+# -----------------User Authentication (Registration)----------------
+def test_registration_name(home_page):
+    home_page.click_registration_button()
+
+  # -------------------text----------------------
+    expect(home_page.get_registration_name()).to_be_visible()
+    expect(home_page.get_registration_select_country()).to_be_visible()
+    expect(home_page.get_registration_account_type()).to_be_visible()
+    expect(home_page.get_registration_email()).to_be_visible()
+    expect(home_page.get_registration_password()).to_be_visible()
+    expect(home_page.get_registration_confirm_password()).to_be_visible()
+  # -------------------text----------------------
+
+  # -------------------select/input fields----------------------
+    expect(home_page.get_name_inputs()).to_be_visible()
+    home_page.fill_name_inputs()
+    expect(home_page.name_input).to_be_visible()
+
+    expect(home_page.get_select_country()).to_be_visible()
+    home_page.select_country_select()
+    home_page.click_country_list()
+    expect(home_page.get_select_country()).to_have_value("Angola")
+  # -------------------select/input fields----------------------
+# -----------------User Authentication (Registration)----------------

@@ -161,3 +161,17 @@ def test_psf_link_navigation(home_page, page):
     10) page.pause() #для зупинки тесту, щоб браузер не закрився автоматично
 
     11)page.set_viewport_size({"width": 375, "height": 812})  #Для зменшення розміру екрана
+
+    12)#login          /* id */
+       .button         /* class */
+        input[name="email"]
+        div > button
+        .btn.primary	один елемент з двома класами
+        .btn .primary	вкладений елемент
+
+    13) Коли елементів багато:
+       page.locator(".item").nth(0)   # перший
+       page.locator(".item").nth(1)   # другий
+
+       page.locator(".item").first
+       page.locator(".item").last

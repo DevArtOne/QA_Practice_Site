@@ -23,7 +23,7 @@ def test_home_module_site_api_response(qa_site_home_page, page):
 
     # assert "key" in data["module"][0] #Це означає: “чи є ключ items у першому об’єкті списку module”.
     first_module = data["module"][0]
-    required_module_fields = {"key", "title", "icon", "is_active", "is_disable"}  #, "items"
+    required_module_fields = {"key", "title", "icon", "is_active", "is_disable"}  # "items"
     assert required_module_fields.issubset(first_module) #Це перевірка, що всі потрібні ключі є в словнику first_module. Тобто майже те саме, що: assert "key" in first_module
 
     assert isinstance(first_module["key"], str)
